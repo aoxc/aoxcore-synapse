@@ -31,3 +31,26 @@ This project is deeply experimental and currently in its infancy. We are "learni
 
 ---
 *Built with integrity for a decentralized future.*
+
+### 🏫 AI Training Campus (Mainnet-Oriented)
+Bu repo artık sadece klasör açan bir taslak değil; **mainnet'e yakın, görev uzmanı mini AOXCAN** yetiştirmek için seviyeli ve izole bir eğitim sistemi sunar.
+
+#### Hedeflenen mini AOXCAN profilleri
+- **XLayer Ops Assistant**
+- **Sui/Move Assistant**
+- **Cardano Integration Assistant**
+- **CLI Generalist Assistant**
+- **Cross-Chain Mainnet Guard** (uzmanları koordine eden üst seviye)
+
+#### Eğitim tasarımı
+- Her track tamamen izole (`datasets`, `docs_en`, `curriculum`, `algorithms`, `checkpoints`, `eval`, `logs`, `reports`, `exports`)
+- İngilizce doküman kaynakları için ayrı `docs_en/` alanı
+- Birden fazla algoritma ailesi ile karşılaştırmalı eğitim (LoRA, QLoRA, DPO, MoE, vb.)
+- Track bazlı **mainnet readiness gate** tanımı
+
+#### Başlatma
+```bash
+python scripts/bootstrap_training_campus.py
+```
+
+Bu komut `training/campus/manifest.json` içinde tüm track'leri, domain kapsamını, algoritmaları ve readiness gate bilgilerini üretir.
