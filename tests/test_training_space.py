@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from academy.cli import main as cli_main
 from academy.training_space import TrainingTrack, bootstrap_training_campus
 
 
@@ -10,6 +11,7 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "Scratch",
             "L1",
             "from-scratch",
+            "Base training",
             "Temel eğitim",
             ("cli",),
             ("small-transformer", "distillation"),
@@ -19,6 +21,7 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "Fine Tune",
             "L2",
             "adapter",
+            "Pretrained model adaptation",
             "Hazır model eğitimi",
             ("sui", "cli"),
             ("lora", "dpo"),
@@ -41,5 +44,17 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
     assert manifest["version"] == 2
     assert manifest["tracks"][0]["target_domains"] == ["cli"]
     assert "isolated_folders" in manifest["tracks"][1]
+
+
+def test_cli_bootstrap_list_and_validate(tmp_path: Path, capsys) -> None:
+    assert cli_main(["--base-dir", str(tmp_path), "bootstrap"]) == 0
+    assert cli_main(["--base-dir", str(tmp_path), "list-tracks"]) == 0
+    list_output = capsys.readouterr().out
+    assert "AOXCORE Training Tracks" in list_output
+    assert "XLayer Operations Specialist" in list_output
+
+    assert cli_main(["--base-dir", str(tmp_path), "validate"]) == 0
+    validate_output = capsys.readouterr().out
+    assert "Campus validation passed." in validate_output
     assert (campus_root / "l1__scratch" / "datasets").exists()
     assert (campus_root / "l2__fine-tune" / "checkpoints").exists()
