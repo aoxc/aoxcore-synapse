@@ -1,24 +1,14 @@
-#!/usr/bin/env python3
-"""Backward-compatible wrapper for campus bootstrap."""
-"""Bootstrap a multi-level training campus for AOXCORE mini-agents."""
+"""Default track definitions for the AOXCORE training campus."""
 
-from pathlib import Path
-import sys
+from __future__ import annotations
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-from academy.cli import main
+from .training_space import TrainingTrack
 
 
-if __name__ == "__main__":
-    raise SystemExit(main(["--base-dir", str(PROJECT_ROOT), "bootstrap"]))
-from academy.training_space import TrainingTrack, bootstrap_training_campus
+def get_default_tracks() -> list[TrainingTrack]:
+    """Return the default mainnet-oriented AOXCAN training tracks."""
 
-
-def main() -> None:
-    tracks = [
+    return [
         TrainingTrack(
             name="Foundation From Scratch",
             stage="L1",
@@ -63,29 +53,5 @@ def main() -> None:
             target_domains=("xlayer", "sui", "cardano", "security"),
             algorithms=("mixture-of-experts", "ensemble-routing", "rule-neural-hybrid"),
             readiness_gate="Stable incident triage quality for 30-day simulation",
-            name="Scratch Foundations",
-            stage="L1",
-            approach="from-scratch",
-            objective="Küçük nöronları sıfırdan eğitme ve davranış analizi",
-        ),
-        TrainingTrack(
-            name="Adapter Fine-Tuning",
-            stage="L2",
-            approach="pretrained-adapter",
-            objective="Hazır modeller üzerinde güvenlik odaklı ince ayar",
-        ),
-        TrainingTrack(
-            name="Cross-Chain Specialist",
-            stage="L3",
-            approach="hybrid",
-            objective="Çok-zincir sinyallerini ayrık uzman nöronlara bölme",
         ),
     ]
-
-    manifest_path = bootstrap_training_campus(PROJECT_ROOT, tracks)
-    print(f"Training campus ready: {manifest_path}")
-    print(f"Training campus hazırlandı: {manifest_path}")
-
-
-if __name__ == "__main__":
-    main()
