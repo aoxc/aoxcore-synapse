@@ -8,6 +8,9 @@
     "algorithms/ALGORITHMS.md",
     "docs_en/DATASET_SOURCES.md"
   ],
+  "version": 2,
+  "description": "AOXCORE mini-model education campus",
+  "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",
   "tracks": [
     {
       "name": "Foundation From Scratch",
@@ -151,6 +154,29 @@
         "reports",
         "exports"
       ]
+  "version": 1,
+  "description": "AOXCORE mini-model education campus",
+  "tracks": [
+    {
+      "name": "Scratch Foundations",
+      "stage": "L1",
+      "approach": "from-scratch",
+      "objective": "Küçük nöronları sıfırdan eğitme ve davranış analizi",
+      "slug": "l1__scratch-foundations"
+    },
+    {
+      "name": "Adapter Fine-Tuning",
+      "stage": "L2",
+      "approach": "pretrained-adapter",
+      "objective": "Hazır modeller üzerinde güvenlik odaklı ince ayar",
+      "slug": "l2__adapter-fine-tuning"
+    },
+    {
+      "name": "Cross-Chain Specialist",
+      "stage": "L3",
+      "approach": "hybrid",
+      "objective": "Çok-zincir sinyallerini ayrık uzman nöronlara bölme",
+      "slug": "l3__cross-chain-specialist"
     }
   ]
 }

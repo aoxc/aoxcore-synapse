@@ -21,6 +21,7 @@ REQUIRED_TRACK_KEYS = (
     "slug",
     "isolated_folders",
 )
+from .training_space import bootstrap_training_campus
 
 
 def _campus_manifest_path(base_dir: Path) -> Path:
@@ -75,6 +76,7 @@ def cmd_validate(base_dir: Path) -> int:
     errors = _validate_manifest_shape(manifest)
     missing_paths: list[str] = []
 
+    missing = []
     for track in manifest.get("tracks", []):
         track_root = manifest_path.parent / track["slug"]
         for folder in track.get("isolated_folders", []):
@@ -96,6 +98,12 @@ def cmd_validate(base_dir: Path) -> int:
             print("Missing paths:")
             for path in missing_paths:
                 print(f"- {path}")
+                missing.append(str(track_root / folder))
+
+    if missing:
+        print("Campus validation failed. Missing paths:")
+        for path in missing:
+            print(f"- {path}")
         return 2
 
     print("Campus validation passed.")
@@ -120,6 +128,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("list-tracks", help="List tracks from manifest.json")
     subparsers.add_parser("validate", help="Validate manifest schema + track isolation + seed files")
     subparsers.add_parser("recommend", help="Print concise guidance for next execution steps")
+    subparsers.add_parser("validate", help="Validate that track isolation folders exist")
     return parser
 
 

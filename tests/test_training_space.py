@@ -12,6 +12,8 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "L1",
             "from-scratch",
             "Base training",
+
+            "Temel eğitim",
             ("cli",),
             ("small-transformer", "distillation"),
             "80% accuracy",
@@ -21,10 +23,13 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "L2",
             "adapter",
             "Pretrained model adaptation",
+            "Hazır model eğitimi",
             ("sui", "cli"),
             ("lora", "dpo"),
             "No critical errors",
         ),
+        TrainingTrack("Scratch", "L1", "from-scratch", "Temel eğitim"),
+        TrainingTrack("Fine Tune", "L2", "adapter", "Hazır model eğitimi"),
     ]
 
     manifest_path = bootstrap_training_campus(tmp_path, tracks)
@@ -44,6 +49,12 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
 
 
 def test_cli_bootstrap_list_validate_and_recommend(tmp_path: Path, capsys) -> None:
+    assert manifest["version"] == 2
+    assert manifest["tracks"][0]["target_domains"] == ["cli"]
+    assert "isolated_folders" in manifest["tracks"][1]
+
+
+def test_cli_bootstrap_list_and_validate(tmp_path: Path, capsys) -> None:
     assert cli_main(["--base-dir", str(tmp_path), "bootstrap"]) == 0
     assert cli_main(["--base-dir", str(tmp_path), "list-tracks"]) == 0
     list_output = capsys.readouterr().out
@@ -57,3 +68,5 @@ def test_cli_bootstrap_list_validate_and_recommend(tmp_path: Path, capsys) -> No
     assert cli_main(["recommend"]) == 0
     recommend_output = capsys.readouterr().out
     assert "Recommended path: YES, with guardrails." in recommend_output
+    assert (campus_root / "l1__scratch" / "datasets").exists()
+    assert (campus_root / "l2__fine-tune" / "checkpoints").exists()
