@@ -113,6 +113,8 @@ def bootstrap_training_campus(base_dir: str | Path, tracks: Iterable[TrainingTra
         "version": 2,
         "description": "AOXCORE mini-model education campus",
         "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",
+        "version": 1,
+        "description": "AOXCORE mini-model education campus",
         "tracks": [],
     }
 
@@ -127,6 +129,26 @@ def bootstrap_training_campus(base_dir: str | Path, tracks: Iterable[TrainingTra
         (track_root / "docs_en" / "DATASET_SOURCES.md").write_text(_build_docs_seed(track), encoding="utf-8")
 
         manifest["tracks"].append(asdict(track) | {"slug": track.slug, "isolated_folders": list(ISOLATED_FOLDERS)})
+        for folder in ("datasets", "checkpoints", "logs", "reports", "exports"):
+            (track_root / folder).mkdir(parents=True, exist_ok=True)
+
+        readme = track_root / "README.md"
+        readme.write_text(
+            "\n".join(
+                [
+                    f"# Track: {track.name}",
+                    "",
+                    f"- Stage: **{track.stage}**",
+                    f"- Approach: **{track.approach}**",
+                    f"- Objective: **{track.objective}**",
+                    "",
+                    "Bu alan diğer track'lerden izole tasarlanmıştır.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        manifest["tracks"].append(asdict(track) | {"slug": track.slug})
 
     manifest_path = campus_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

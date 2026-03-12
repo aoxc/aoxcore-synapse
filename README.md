@@ -49,8 +49,21 @@ Bu repo artık sadece klasör açan bir taslak değil; **mainnet'e yakın, göre
 - Track bazlı **mainnet readiness gate** tanımı
 
 #### Başlatma
+
+### 🏫 AI Eğitim Kampüsü (Önerilen Düzen)
+Bu depo artık farklı seviyelerde, birbirine karışmadan mini-agent eğitimleri yürütmek için **izole track** yapısını destekler.
+
+- **L1 / from-scratch:** Sıfırdan eğitim denemeleri
+- **L2 / pretrained-adapter:** Hazır modeller üzerinde güvenli ince ayar
+- **L3 / hybrid specialist:** Göreve özel hibrit uzmanlaşma
+
+Her track için `datasets/`, `checkpoints/`, `logs/`, `reports/`, `exports/` klasörleri ayrı açılır. Böylece sonuçlar birbiriyle çakışmaz.
+
+Başlatmak için:
+
 ```bash
 python scripts/bootstrap_training_campus.py
 ```
 
 Bu komut `training/campus/manifest.json` içinde tüm track'leri, domain kapsamını, algoritmaları ve readiness gate bilgilerini üretir.
+Bu komut `training/campus/manifest.json` üretir ve eğitim alanlarını otomatik kurar.

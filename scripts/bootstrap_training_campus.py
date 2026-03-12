@@ -57,11 +57,28 @@ def main() -> None:
             target_domains=("xlayer", "sui", "cardano", "security"),
             algorithms=("mixture-of-experts", "ensemble-routing", "rule-neural-hybrid"),
             readiness_gate="Stable incident triage quality for 30-day simulation",
+            name="Scratch Foundations",
+            stage="L1",
+            approach="from-scratch",
+            objective="Küçük nöronları sıfırdan eğitme ve davranış analizi",
+        ),
+        TrainingTrack(
+            name="Adapter Fine-Tuning",
+            stage="L2",
+            approach="pretrained-adapter",
+            objective="Hazır modeller üzerinde güvenlik odaklı ince ayar",
+        ),
+        TrainingTrack(
+            name="Cross-Chain Specialist",
+            stage="L3",
+            approach="hybrid",
+            objective="Çok-zincir sinyallerini ayrık uzman nöronlara bölme",
         ),
     ]
 
     manifest_path = bootstrap_training_campus(PROJECT_ROOT, tracks)
     print(f"Training campus ready: {manifest_path}")
+    print(f"Training campus hazırlandı: {manifest_path}")
 
 
 if __name__ == "__main__":

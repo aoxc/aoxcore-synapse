@@ -24,6 +24,8 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             ("lora", "dpo"),
             "No critical errors",
         ),
+        TrainingTrack("Scratch", "L1", "from-scratch", "Temel eğitim"),
+        TrainingTrack("Fine Tune", "L2", "adapter", "Hazır model eğitimi"),
     ]
 
     manifest_path = bootstrap_training_campus(tmp_path, tracks)
@@ -39,3 +41,5 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
     assert manifest["version"] == 2
     assert manifest["tracks"][0]["target_domains"] == ["cli"]
     assert "isolated_folders" in manifest["tracks"][1]
+    assert (campus_root / "l1__scratch" / "datasets").exists()
+    assert (campus_root / "l2__fine-tune" / "checkpoints").exists()
