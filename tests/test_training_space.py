@@ -12,6 +12,7 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "L1",
             "from-scratch",
             "Base training",
+            "Temel eğitim",
             ("cli",),
             ("small-transformer", "distillation"),
             "80% accuracy",
@@ -21,10 +22,13 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "L2",
             "adapter",
             "Pretrained model adaptation",
+            "Hazır model eğitimi",
             ("sui", "cli"),
             ("lora", "dpo"),
             "No critical errors",
         ),
+        TrainingTrack("Scratch", "L1", "from-scratch", "Temel eğitim"),
+        TrainingTrack("Fine Tune", "L2", "adapter", "Hazır model eğitimi"),
     ]
 
     manifest_path = bootstrap_training_campus(tmp_path, tracks)
@@ -52,3 +56,5 @@ def test_cli_bootstrap_list_and_validate(tmp_path: Path, capsys) -> None:
     assert cli_main(["--base-dir", str(tmp_path), "validate"]) == 0
     validate_output = capsys.readouterr().out
     assert "Campus validation passed." in validate_output
+    assert (campus_root / "l1__scratch" / "datasets").exists()
+    assert (campus_root / "l2__fine-tune" / "checkpoints").exists()
