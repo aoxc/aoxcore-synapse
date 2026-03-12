@@ -1,4 +1,13 @@
 {
+  "version": 3,
+  "description": "AOXCORE mini-model education campus",
+  "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",
+  "required_seed_files": [
+    "README.md",
+    "curriculum/CURRICULUM.md",
+    "algorithms/ALGORITHMS.md",
+    "docs_en/DATASET_SOURCES.md"
+  ],
   "version": 2,
   "description": "AOXCORE mini-model education campus",
   "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",

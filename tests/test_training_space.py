@@ -12,6 +12,7 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
             "L1",
             "from-scratch",
             "Base training",
+
             "Temel eğitim",
             ("cli",),
             ("small-transformer", "distillation"),
@@ -41,6 +42,13 @@ def test_bootstrap_training_campus_creates_isolated_tracks(tmp_path: Path) -> No
     assert (campus_root / "l2__fine-tune" / "algorithms" / "ALGORITHMS.md").exists()
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["version"] == 3
+    assert manifest["tracks"][0]["target_domains"] == ["cli"]
+    assert "isolated_folders" in manifest["tracks"][1]
+    assert "required_seed_files" in manifest
+
+
+def test_cli_bootstrap_list_validate_and_recommend(tmp_path: Path, capsys) -> None:
     assert manifest["version"] == 2
     assert manifest["tracks"][0]["target_domains"] == ["cli"]
     assert "isolated_folders" in manifest["tracks"][1]
@@ -56,5 +64,9 @@ def test_cli_bootstrap_list_and_validate(tmp_path: Path, capsys) -> None:
     assert cli_main(["--base-dir", str(tmp_path), "validate"]) == 0
     validate_output = capsys.readouterr().out
     assert "Campus validation passed." in validate_output
+
+    assert cli_main(["recommend"]) == 0
+    recommend_output = capsys.readouterr().out
+    assert "Recommended path: YES, with guardrails." in recommend_output
     assert (campus_root / "l1__scratch" / "datasets").exists()
     assert (campus_root / "l2__fine-tune" / "checkpoints").exists()

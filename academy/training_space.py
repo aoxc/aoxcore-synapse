@@ -19,6 +19,14 @@ ISOLATED_FOLDERS = (
     "exports",
 )
 
+REQUIRED_SEED_FILES = (
+    "README.md",
+    "curriculum/CURRICULUM.md",
+    "algorithms/ALGORITHMS.md",
+    "docs_en/DATASET_SOURCES.md",
+)
+
+
 
 @dataclass(frozen=True)
 class TrainingTrack:
@@ -110,6 +118,19 @@ def bootstrap_training_campus(base_dir: str | Path, tracks: Iterable[TrainingTra
     campus_dir.mkdir(parents=True, exist_ok=True)
 
     manifest = {
+        "version": 3,
+        "description": "AOXCORE mini-model education campus",
+        "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",
+        "required_seed_files": list(REQUIRED_SEED_FILES),
+        "tracks": [],
+    }
+
+    seen_slugs: set[str] = set()
+    for track in tracks:
+        if track.slug in seen_slugs:
+            raise ValueError(f"Duplicate track slug detected: {track.slug}")
+        seen_slugs.add(track.slug)
+
         "version": 2,
         "description": "AOXCORE mini-model education campus",
         "mainnet_goal": "Reliable domain-specific mini AOXCAN assistants",

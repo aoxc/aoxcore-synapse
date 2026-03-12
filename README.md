@@ -52,6 +52,50 @@ Each track gets independent artifacts so experiments never collide:
 python -m academy.cli --base-dir . bootstrap
 python -m academy.cli --base-dir . list-tracks
 python -m academy.cli --base-dir . validate
+python -m academy.cli recommend
+```
+
+Legacy bootstrap script is still available:
+
+```bash
+python scripts/bootstrap_training_campus.py
+```
+
+The command set generates and validates `training/campus/manifest.json` with track domains, algorithm plans, and readiness gates.
+#### Is this the right path?
+Short answer: **yes**, if you keep strict promotion gates.
+
+- Keep domain-specialized tracks (XLayer / Sui / Cardano / CLI) isolated.
+- Use L1 as a mandatory base before promoting to L2/L3 specialists.
+- Treat `validate` as a quality gate in CI so broken tracks cannot progress.
+- Prefer iterative open-source contribution per track instead of one huge training run.
+
+
+#### Target assistant families
+- **CLI Generalist Assistant** (foundation)
+- **XLayer Operations Specialist**
+- **Sui/Move Specialist**
+- **Cardano Integration Specialist**
+- **Cross-Chain Mainnet Guard** (specialist coordination)
+
+#### Isolation model
+Each track gets independent artifacts so experiments never collide:
+
+- `datasets/`
+- `docs_en/`
+- `curriculum/`
+- `algorithms/`
+- `checkpoints/`
+- `eval/`
+- `logs/`
+- `reports/`
+- `exports/`
+
+#### CLI commands
+```bash
+python -m academy.cli --base-dir . bootstrap
+python -m academy.cli --base-dir . list-tracks
+python -m academy.cli --base-dir . validate
 ```
 
 Legacy bootstrap script is still available:
